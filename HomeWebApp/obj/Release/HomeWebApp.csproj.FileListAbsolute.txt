@@ -13,3 +13,16 @@ D:\SF-11789\Main\Programs\HomeApps\HomeWebApp\obj\Release\HomeWebApp.csprojResol
 D:\SF-11789\Main\Programs\HomeApps\HomeWebApp\obj\Release\HomeWebApp.csproj.CoreCompileInputs.cache
 D:\SF-11789\Main\Programs\HomeApps\HomeWebApp\obj\Release\HomeWebApp.dll
 D:\SF-11789\Main\Programs\HomeApps\HomeWebApp\obj\Release\HomeWebApp.pdb
+C:\Main\Code\HomeApps\HomeWebApp\bin\Styles\style.css
+C:\Main\Code\HomeApps\HomeWebApp\bin\HomeWebApp.dll.config
+C:\Main\Code\HomeApps\HomeWebApp\bin\HomeWebApp.dll
+C:\Main\Code\HomeApps\HomeWebApp\bin\HomeWebApp.pdb
+C:\Main\Code\HomeApps\HomeWebApp\bin\HomeAppsLib.dll
+C:\Main\Code\HomeApps\HomeWebApp\bin\Newtonsoft.Json.dll
+C:\Main\Code\HomeApps\HomeWebApp\bin\HomeAppsLib.pdb
+C:\Main\Code\HomeApps\HomeWebApp\bin\Newtonsoft.Json.xml
+C:\Main\Code\HomeApps\HomeWebApp\obj\Release\HomeWebApp.csprojAssemblyReference.cache
+C:\Main\Code\HomeApps\HomeWebApp\obj\Release\HomeWebApp.csproj.CoreCompileInputs.cache
+C:\Main\Code\HomeApps\HomeWebApp\obj\Release\HomeWebApp.csproj.CopyComplete
+C:\Main\Code\HomeApps\HomeWebApp\obj\Release\HomeWebApp.dll
+C:\Main\Code\HomeApps\HomeWebApp\obj\Release\HomeWebApp.pdb

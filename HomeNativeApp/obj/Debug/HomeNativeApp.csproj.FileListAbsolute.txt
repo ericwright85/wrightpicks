@@ -12,3 +12,4 @@ C:\Main\Code\HomeApps\HomeNativeApp\obj\Debug\HomeNativeApp.csproj.CopyComplete
 C:\Main\Code\HomeApps\HomeNativeApp\obj\Debug\HomeNativeApp.exe
 C:\Main\Code\HomeApps\HomeNativeApp\obj\Debug\HomeNativeApp.pdb
 C:\Main\Code\HomeApps\HomeNativeApp\obj\Debug\HomeNativeApp.csprojAssemblyReference.cache
+C:\Main\Code\HomeApps\HomeNativeApp\obj\Debug\HomeNativeApp.Form1.resources

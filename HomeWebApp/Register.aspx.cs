@@ -61,6 +61,9 @@ namespace HomeWebApp
             if (txtBirthday.Text.Trim() != string.Empty && !ValidDate(txtBirthday.Text))
                 validationMessageList.Add("Invalid date entered for birthday, try format MM/DD/YY");
 
+            if (txtCode.Text.ToLower().Replace(" ","") != "wrightfamily")
+                validationMessageList.Add("Invalid code");
+
             return validationMessageList.ToArray();
         }
 

@@ -25,9 +25,16 @@ namespace BatchService
 
         protected override void OnStart(string[] args)
         {
-            //LibCommon.SendEmail("eric@hackerdevs.com", "Batch Service Started", "Before DoWork", "Console Service");
-            bgw.RunWorkerAsync();
-            //LibCommon.SendEmail("eric@hackerdevs.com", "Batch Service Started", "After DoWork", "Console Service");
+            try
+            {
+                LibCommon.SendEmail("eric@hackerdevs.com", "Batch Service Started", "Before DoWork", "Batch Service");
+                bgw.RunWorkerAsync();
+                LibCommon.SendEmail("eric@hackerdevs.com", "Batch Service Started", "After DoWork", "Batch Service");
+            }
+            catch(Exception ex)
+            {
+                LibCommon.SendEmail("eric@hackerdevs.com", "Batch Service Exception", ex.ToString(), "Batch Service");
+            }
         }
 
         protected override void OnStop()

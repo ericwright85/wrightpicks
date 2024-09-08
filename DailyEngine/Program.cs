@@ -14,7 +14,10 @@ namespace DailyEngine
         {
             try
             {
-                LibCommon.UpdateNFLMatchups(false);
+                //LibCommon.SendEmail("eric.wright85@gmail.com", "test", "testemail", "tester console");
+                LibCommon.SendUnsentEmails(1);
+
+                //LibCommon.UpdateNFLMatchups(false);
                 //return;
 
                 DateTime start = DateTime.Now; // start timestamp

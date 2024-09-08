@@ -4,3 +4,11 @@ D:\SF-11789\Main\Programs\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.csprojRes
 D:\SF-11789\Main\Programs\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.csproj.CoreCompileInputs.cache
 D:\SF-11789\Main\Programs\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.dll
 D:\SF-11789\Main\Programs\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.pdb
+C:\Main\Code\HomeApps\HomeAppsLib\bin\Release\HomeAppsLib.dll
+C:\Main\Code\HomeApps\HomeAppsLib\bin\Release\HomeAppsLib.pdb
+C:\Main\Code\HomeApps\HomeAppsLib\bin\Release\Newtonsoft.Json.dll
+C:\Main\Code\HomeApps\HomeAppsLib\bin\Release\Newtonsoft.Json.xml
+C:\Main\Code\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.csproj.CoreCompileInputs.cache
+C:\Main\Code\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.csproj.CopyComplete
+C:\Main\Code\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.dll
+C:\Main\Code\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.pdb

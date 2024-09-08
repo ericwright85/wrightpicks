@@ -33,6 +33,7 @@
             // bgw
             // 
             this.bgw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgw_DoWork);
+            this.bgw.WorkerSupportsCancellation = true;
             // 
             // Service
             // 

@@ -28,6 +28,10 @@
     <tr align="left">
         <td class="fieldLabel">Confirm password: </td>
         <td><asp:TextBox ID="txtConfirmPassword" runat="server" TextMode="Password"></asp:TextBox></td>
+    </tr>    
+    <tr align="left">
+        <td class="fieldLabel">Code: </td>
+        <td><asp:TextBox ID="txtCode" runat="server"></asp:TextBox></td>
     </tr>
     <tr align="left">
         <td></td>

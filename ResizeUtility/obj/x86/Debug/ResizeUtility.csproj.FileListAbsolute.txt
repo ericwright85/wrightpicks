@@ -14,3 +14,4 @@ C:\Main\Code\HomeApps\ResizeUtility\bin\Debug\ResizeUtility.pdb
 C:\Main\Code\HomeApps\ResizeUtility\obj\x86\Debug\ResizeUtility.csproj.CoreCompileInputs.cache
 C:\Main\Code\HomeApps\ResizeUtility\obj\x86\Debug\ResizeUtility.exe
 C:\Main\Code\HomeApps\ResizeUtility\obj\x86\Debug\ResizeUtility.pdb
+C:\Main\Code\HomeApps\ResizeUtility\obj\x86\Debug\ResizeUtility.csprojAssemblyReference.cache

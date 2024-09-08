@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HomeAppsLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,11 @@ namespace HomeNativeApp
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void btnDecrypt_Click(object sender, EventArgs e)
+        {
+            txtEncPW.Text = new Encryption().Decrypt(txtEncPW.Text);
         }
     }
 }

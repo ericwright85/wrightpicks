@@ -115,6 +115,7 @@
     <Content Include="Scripts\site.js" />
     <Content Include="Test.aspx" />
     <Content Include="WinLossStats.aspx" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Styles\Site.css.deleted" />
     <Content Include="Styles\mobilestyle.css" />
     <Content Include="Styles\style.css">
@@ -288,7 +289,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="site.Master" />

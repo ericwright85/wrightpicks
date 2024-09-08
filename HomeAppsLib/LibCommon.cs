@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using HomeAppsLib.API;
+using Newtonsoft.Json;
 
 namespace HomeAppsLib
 {
@@ -67,12 +70,12 @@ namespace HomeAppsLib
             data.SubmitChanges();
         }
 
-        public static string SendEmail(string to, string subject, string body, string displayName, TimeSpan? waitAfter = null)
+        public static string SendEmail(string to, string subject, string body, string displayName, TimeSpan? waitAfter = null, int? emailLogId = null)
         {
-            return SendEmail(to, subject, body, displayName, true, waitAfter: waitAfter);
+            return SendEmail(to, subject, body, displayName, true, waitAfter, emailLogId);
         }
 
-        private static string SendEmail(string to, string subject, string body, string displayName, bool logEmail, TimeSpan? waitAfter = null)
+        private static string SendEmail(string to, string subject, string body, string displayName, bool logEmail, TimeSpan? waitAfter, int? emailLogId)
         {
             if (string.IsNullOrEmpty(to))
                 return "parameter 'to' was sent to method 'SendEmail' as an empty or null string";
@@ -83,32 +86,35 @@ namespace HomeAppsLib
 
             try
             {
-                GetSMTPSettings(out string host, out string username, out string password);
-                System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)3072;
+                SendEmailAtlasAPI(to, subject, body, displayName);
 
-                System.Net.Mail.MailMessage mail = new System.Net.Mail.MailMessage();
-                //System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient("smtp.gmail.com");
-                System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient(host);
-                client.EnableSsl = true;
-                client.Credentials = new System.Net.NetworkCredential(username, password);
-                client.Port = 587;
+                //GetSMTPSettings(out string host, out string username, out string password);
+                //System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)3072;
 
-                mail.From = new System.Net.Mail.MailAddress(username, displayName);
+                //System.Net.Mail.MailMessage mail = new System.Net.Mail.MailMessage();
+                ////System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient("smtp.gmail.com");
+                //System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient(host);
+                //client.EnableSsl = true;
+                //client.Credentials = new System.Net.NetworkCredential(username, password);
+                //client.Port = 587;
+                ////client.Port = 465;
 
-                string[] recipients = to.Split(';');
-                foreach (string rec in recipients)
-                {
-                    if (rec.Trim() != string.Empty) mail.To.Add(rec.Trim());
-                }                
+                //mail.From = new System.Net.Mail.MailAddress(username, displayName);
+
+                //string[] recipients = to.Split(';');
+                //foreach (string rec in recipients)
+                //{
+                //    if (rec.Trim() != string.Empty) mail.To.Add(rec.Trim());
+                //}                
                 
-                mail.Subject = subject;
-                mail.Body = body;
-                mail.IsBodyHtml = true;
+                //mail.Subject = subject;
+                //mail.Body = body;
+                //mail.IsBodyHtml = true;
 
-                if (System.Configuration.ConfigurationManager.AppSettings["BCCADMIN"] == "true")
-                    mail.Bcc.Add("eric@hackerdevs.com");
+                //if (System.Configuration.ConfigurationManager.AppSettings["BCCADMIN"] == "true")
+                //    mail.Bcc.Add("eric@hackerdevs.com");
 
-                client.Send(mail);
+                //client.Send(mail);
 
                 if (waitAfter.HasValue)
                 {
@@ -127,48 +133,85 @@ namespace HomeAppsLib
 
             
             // log email
-            if (logEmail)
+            if (logEmail || emailLogId.HasValue)
             {
                 try
                 {
                     var data = DBModel();
-                    var log = new db.EmailLog();
-                    log.EmailTo = to;
-                    log.EmailSubject = subject;
-                    log.EmailBody = body;
-                    log.EmailDisplayFrom = displayName;
-                    log.Success = success;
-                    log.Message = message;
-                    log.SendDate = DateTime.Now;
-                    try { log.Source = System.Reflection.Assembly.GetEntryAssembly().ManifestModule.Name; }
-                    catch (Exception ex) { log.Source = "ERROR: " + ex.Message; }
-                    data.EmailLogs.InsertOnSubmit(log);
+                    db.EmailLog log;
+                    if (emailLogId.HasValue)
+                    {
+                        log = data.EmailLogs.First(l => l.Id == emailLogId);
+                        log.Success = success;
+                        log.Message += " | " + message;
+                    }
+                    else
+                    {
+                        log = new db.EmailLog();
+                        log.EmailTo = to;
+                        log.EmailSubject = subject;
+                        log.EmailBody = body;
+                        log.EmailDisplayFrom = displayName;
+                        log.Success = success;
+                        log.Message = message;
+                        log.SendDate = DateTime.Now;
+                        try { log.Source = System.Reflection.Assembly.GetEntryAssembly().ManifestModule.Name; }
+                        catch (Exception ex) { log.Source = "ERROR: " + ex.Message; }
+                        data.EmailLogs.InsertOnSubmit(log);
+                    }
                     data.SubmitChanges();
                 }
-                catch (Exception ex) { SendEmail("eric@hackerdevs.com", "ERROR LOGGING EMAIL", ex.ToString(), "Home Apps", false); }
+                catch (Exception ex) { SendEmail("eric@hackerdevs.com", "ERROR LOGGING EMAIL", ex.ToString(), "Home Apps", false, null, null); }
             }
 
             return message;
         }
 
+        private static void SendEmailAtlasAPI(string to, string subject, string body, string displayName)
+        {
+            CallAtlasAPI(
+                new { To = new string[] { to }, Subject = subject, Body = body, IsHtml = true, From = "no-reply@prismpay.com" }
+            );
+        }
+        private static void CallAtlasAPI(object jsonBody)
+        {
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://reporting.prismpay.com/api/email/sendemail");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+            httpWebRequest.Headers.Add("Authorization", "/CDInhSBWiH72jie3mTrCA==");
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                streamWriter.Write(JsonConvert.SerializeObject(jsonBody));
+            } 
+            HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+            StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream());
+            string readToEnd = streamReader.ReadToEnd();
+            //Debug.Print(readToEnd);
+            object response = JsonConvert.DeserializeObject(readToEnd);
+        }
+
         public static string SendCoryText(int week)
         {
             //href = '" + LibCommon.WebsiteUrlRoot() + "nflpicks.aspx?quickpicks=true&autoweek=" + weekAboutToExpire.week + "&sso=" + LibCommon.SSOUserKey(user) + "'
-            string url = "http://www.thewrightpicks.com/nflpicks.aspx?quickpicks=true&autoweek=" + week + "&sso=7E1191C4537CC9575D2E4D6AB70608C6849C2326836A339D";
+            string url = WebsiteUrlRoot() + "nflpicks.aspx?quickpicks=true&autoweek=" + week + "&sso=7E1191C4537CC9575D2E4D6AB70608C6849C2326836A339D";
 
             // sana
             // AE31CA5C7433D36CDB3654C2F76F7634A8CC4298A376EF5F
             // cory
             // 7E1191C4537CC9575D2E4D6AB70608C6849C2326836A339D
 
-            return SendText("8328923624", "Make your picks! Click here: " + url);
+            return SendText("8328923624", "Make your picks! Click here: " + url, domain: "mailmymobile.net");
             //return SendText("7138051398", "Make your picks! Click here: " + url);
             //return SendText("8325676572", "Make your picks! Click here: " + url);
         }
         public static string SendJCText(int week)
         {
             //href = '" + LibCommon.WebsiteUrlRoot() + "nflpicks.aspx?quickpicks=true&autoweek=" + weekAboutToExpire.week + "&sso=" + LibCommon.SSOUserKey(user) + "'
-            string url = "http://www.thewrightpicks.com/nflpicks.aspx?quickpicks=true&autoweek=" + week + "&sso=8C6E63886CD5DFFFEE916C012753C42016140864289A17B9CF151776DFFA5D25";
+            string url = WebsiteUrlRoot() + "nflpicks.aspx?quickpicks=true&autoweek=" + week + "&sso=8C6E63886CD5DFFFEE916C012753C42016140864289A17B9CF151776DFFA5D25";
             //string message = "<a href='" + url + "'>CLICK HERE YOU MAKE YOUR PICKS!</a>";
             string message = "[url=" + url + "]CLICK HERE YOU MAKE YOUR PICKS![/url]";
 
@@ -208,8 +251,26 @@ namespace HomeAppsLib
             
             return config;
         }
+        private static DataTable ExecuteQuery(string sql)
+        {
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(sql, System.Configuration.ConfigurationManager.ConnectionStrings["HomeWebAppDBConnectionString"].ConnectionString);
+            adapter.Fill(dt);
+            return dt;
+        }
         private static void GetSMTPSettings(out string host, out string username, out string password)
         {
+            //host = "smtp.zoho.com";
+            //username = "info@thewrightpicks.com";
+            //password = "Threwwu7&";
+
+            //host = "smtp.sendgrid.com";
+            //username = "apikey";
+            //password = "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";
+            // recovery code X9U5ERS845FCLGFR1SHTJQAY
+            // <network host="smtp.sendgrid.net" password="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" userName="apikey" port="587" />
+            //return;
+
             try
             {
                 DataTable config = GetConfig();
@@ -288,7 +349,7 @@ namespace HomeAppsLib
 
             //return local ? "http://192.168.2.150/" : "http://www.thewrightpicks.com/";            
 
-            return "http://www.thewrightpicks.com/";
+            return "http://www.wrightpicks.net/";
         }
 
         public static bool IsDevelopmentEnvironment()
@@ -802,6 +863,21 @@ namespace HomeAppsLib
             string pair = user.name + "|" + user.encPW;
             string key = enc.Encrypt(pair);
             return key;
+        }
+
+        public static void SendUnsentEmails(int days)
+        {
+            DataTable unsent = ExecuteQuery("select * from EmailLog where SendDate > dateadd(day,-" + days + ",getdate()) and Success=0");
+            foreach (DataRow row in unsent.Rows)
+            {
+                SendEmail(row["EmailTo"].ToString(), 
+                    row["EmailSubject"].ToString(), 
+                    row["EmailBody"].ToString(), 
+                    row["EmailDisplayFrom"].ToString(),
+                    emailLogId: Convert.ToInt32(row["Id"])
+                    );
+
+            }
         }
     }
 }

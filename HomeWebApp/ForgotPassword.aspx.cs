@@ -20,16 +20,19 @@ namespace HomeWebApp
         {
             string body = string.Empty;            
 
-            HomeAppsLib.db.user user = HomeAppsLib.LibCommon.DBModel().users.FirstOrDefault(u => u.email == tbEmail.Text && u.IsActive);
+            IQueryable<HomeAppsLib.db.user> users = HomeAppsLib.LibCommon.DBModel().users.Where(u => u.email == tbEmail.Text && u.IsActive);
 
-            if (user != null)
+            if (users != null && users.Any())
             {
                 body += "Your login credentials are below:<br>";
 
-                body += "Name: " + user.name + "<br>";
-                body += "Pw: " + new Encryption().Decrypt(user.encPW) + "<br>";
+                foreach (var user in users)
+                {
+                    body += "Name: " + user.name + "<br>";
+                    body += "Pw: " + new Encryption().Decrypt(user.encPW) + "<br><br>";
+                }
 
-                HomeAppsLib.LibCommon.SendSystemEmailWithSignature(user.email, "Credentials requested", body);
+                HomeAppsLib.LibCommon.SendSystemEmailWithSignature(users.First().email, "Credentials requested", body);
 
                 lblStatus.Text = "We have sent your login info to your registered email address.";
 
