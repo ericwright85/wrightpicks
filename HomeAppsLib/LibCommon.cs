@@ -274,17 +274,6 @@ namespace HomeAppsLib
         }
         private static void GetSMTPSettings(out string host, out string username, out string password)
         {
-            //host = "smtp.zoho.com";
-            //username = "info@thewrightpicks.com";
-            //password = "Threwwu7&";
-
-            //host = "smtp.sendgrid.com";
-            //username = "apikey";
-            //password = "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";
-            // recovery code X9U5ERS845FCLGFR1SHTJQAY
-            // <network host="smtp.sendgrid.net" password="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" userName="apikey" port="587" />
-            //return;
-
             try
             {
                 DataTable config = GetConfig();
