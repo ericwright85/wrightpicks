@@ -81,7 +81,7 @@
   </Table>
   <Table Name="dbo.users" Member="users">
     <Type Name="user">
-      <Column Name="name" Type="System.String" DbType="VarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="encPW" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="ip_address" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="registration_dt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />

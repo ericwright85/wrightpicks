@@ -13,7 +13,10 @@ namespace DailyEngine
         public static int SendPicksReminders()
         {
             DateTime aFewDaysOut = DateTime.Now.AddDays(1).ToEndOfDay();
-            var weeksAboutToExpire = LibCommon.DBModel().NFL_weeks.Where(x => x.exp_dt > DateTime.Now && x.exp_dt < aFewDaysOut && x.week > 0);
+            var weeksAboutToExpire = LibCommon.DBModel().NFL_weeks.Where(x => 
+            x.exp_dt > DateTime.Now && 
+            (x.exp_dt < aFewDaysOut || (x.year_week == 1 && x.weekTypeId == 1)) && 
+            x.week > 0);
 
             int count = 0;
 
@@ -46,7 +49,7 @@ namespace DailyEngine
             foreach (var user in EmailSubscriptions.GetSubscribedUsers(emailSubscriptionType))
             {
                 if (LibCommon.DBModel().NFL_userPicks.Count(x => x.week == weekAboutToExpire.week && x.username == user.name) == 0 // haven't picked
-                    && LibCommon.DBModel().EmailLogs.Count(e => e.SendDate.Date == DateTime.Now.Date && e.EmailTo.Equals(user.email) && e.Success) == 0 // havne't been reminded today
+                    && LibCommon.DBModel().EmailLogs.Count(e => e.SendDate.Date == DateTime.Now.Date && e.EmailTo.Equals(user.email) && e.Success && e.EmailBody.Contains("will expire on")) == 0 // havne't been reminded today
                     )
                 {
                     string to = LibCommon.IsDevelopmentEnvironment() ? "eric@hackerdevs.com" : user.email;

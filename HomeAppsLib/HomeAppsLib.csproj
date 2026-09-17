@@ -75,6 +75,7 @@
       <LastGenOutput>data.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
+    <Content Include="espn_snapshot_20250901.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

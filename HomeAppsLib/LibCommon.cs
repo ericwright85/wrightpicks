@@ -175,23 +175,37 @@ namespace HomeAppsLib
         }
         private static void CallAtlasAPI(object jsonBody)
         {
-            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072; // TLS 1.2
+            ServicePointManager.Expect100Continue = false;
+            ServicePointManager.DefaultConnectionLimit = 10;
+
+            string json = JsonConvert.SerializeObject(jsonBody);
+            byte[] data = Encoding.UTF8.GetBytes(json);
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://reporting.prismpay.com/api/email/sendemail");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
             httpWebRequest.Headers.Add("Authorization", "/CDInhSBWiH72jie3mTrCA==");
 
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
-                streamWriter.Write(JsonConvert.SerializeObject(jsonBody));
-            } 
-            HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            httpWebRequest.UserAgent = "HomeAppsLib/1.0";
+            httpWebRequest.Accept = "application/json";
+            httpWebRequest.KeepAlive = false;
+            httpWebRequest.ProtocolVersion = HttpVersion.Version11;
+            httpWebRequest.Timeout = 30000;
+            httpWebRequest.ReadWriteTimeout = 30000;
+            httpWebRequest.ContentLength = data.Length;
 
-            StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream());
-            string readToEnd = streamReader.ReadToEnd();
-            //Debug.Print(readToEnd);
-            object response = JsonConvert.DeserializeObject(readToEnd);
+            using (var requestStream = httpWebRequest.GetRequestStream())
+            {
+                requestStream.Write(data, 0, data.Length);
+            }
+
+            using (var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse())
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                string readToEnd = streamReader.ReadToEnd();
+                object response = JsonConvert.DeserializeObject(readToEnd);
+            }
         }
 
         public static string SendCoryText(int week)
@@ -586,6 +600,7 @@ namespace HomeAppsLib
         {
             try
             {
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
                 System.Net.WebClient client = new System.Net.WebClient();                
                 string json = client.DownloadString("http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard");
                 API.ESPN.Feed model = Newtonsoft.Json.JsonConvert.DeserializeObject<API.ESPN.Feed>(json);

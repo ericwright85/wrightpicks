@@ -12,3 +12,4 @@ C:\Main\Code\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.csproj.CoreCompileInpu
 C:\Main\Code\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.csproj.CopyComplete
 C:\Main\Code\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.dll
 C:\Main\Code\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.pdb
+C:\Main\Code\HomeApps\HomeAppsLib\obj\Release\HomeAppsLib.csprojAssemblyReference.cache
