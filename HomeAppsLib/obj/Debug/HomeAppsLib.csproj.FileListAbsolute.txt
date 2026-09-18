@@ -18,3 +18,11 @@ C:\Main\Code\HomeApps\HomeAppsLib\bin\Debug\Newtonsoft.Json.dll
 C:\Main\Code\HomeApps\HomeAppsLib\bin\Debug\Newtonsoft.Json.xml
 C:\Main\Code\HomeApps\HomeAppsLib\obj\Debug\HomeAppsLib.csproj.CopyComplete
 C:\Main\Code\HomeApps\HomeAppsLib\obj\Debug\HomeAppsLib.csprojAssemblyReference.cache
+C:\Main\code\wright-picks\HomeAppsLib\bin\Debug\HomeAppsLib.dll
+C:\Main\code\wright-picks\HomeAppsLib\bin\Debug\HomeAppsLib.pdb
+C:\Main\code\wright-picks\HomeAppsLib\bin\Debug\Newtonsoft.Json.dll
+C:\Main\code\wright-picks\HomeAppsLib\obj\Debug\HomeAppsLib.csproj.AssemblyReference.cache
+C:\Main\code\wright-picks\HomeAppsLib\obj\Debug\HomeAppsLib.csproj.CoreCompileInputs.cache
+C:\Main\code\wright-picks\HomeAppsLib\obj\Debug\HomeApps.1C0622DB.Up2Date
+C:\Main\code\wright-picks\HomeAppsLib\obj\Debug\HomeAppsLib.dll
+C:\Main\code\wright-picks\HomeAppsLib\obj\Debug\HomeAppsLib.pdb

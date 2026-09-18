@@ -6,9 +6,8 @@
 
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-.vs/
-obj/
-bin/
+# Build outputs and IDE state are covered by the rules below.
+# Previously tracked artifacts must also be removed with git rm --cached.
  
 
 # User-specific files
