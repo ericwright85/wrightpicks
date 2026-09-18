@@ -591,6 +591,7 @@ namespace HomeAppsLib
             {
                 ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
                 System.Net.WebClient client = new System.Net.WebClient();                
+                client.Headers[System.Net.HttpRequestHeader.UserAgent] = "curl/8.21.0";
                 string json = client.DownloadString("http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard");
                 API.ESPN.Feed model = Newtonsoft.Json.JsonConvert.DeserializeObject<API.ESPN.Feed>(json);
 
